@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments.html :: myHeader"/>
+<body>
+<nav th:replace="fragments.html :: myNav ('글작성')"/>
+<div th:replace="fragments.html :: topDiv1"/>
+<br/><br/><br/><br/>
+<div align="center">
+  <form action="writeForm.html" th:action th:method="post" th:object="${todoWriteDTO}" style="width: 750px;"
+        enctype="multipart/form-data">
+
+    <br/>
+    <div>
+      <label>작성자 : [[*{writer}]]</label>
+    </div>
+    <br/>
+    <div>
+      <label th:for="title">할 일 : </label>
+      <input type="text" th:field="*{title}" style="width: 400px" th:errorclass="field-error"/>
+      <div class="field-error" th:errors="*{title}" />
+    </div>
+    <br/>
+    <div align="center">
+      <button type="button" onclick="history.back()">뒤로가기</button>
+      <button type="submit">글 작성</button>
+    </div>
+  </form>
+</div>
+</body>
+</html>
