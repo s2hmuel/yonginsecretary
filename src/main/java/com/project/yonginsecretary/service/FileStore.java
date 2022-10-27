@@ -13,7 +13,7 @@ import java.util.UUID;
 @Component
 public class FileStore {
 
-    private final String fileDir = "D:/개발공부/SpringStudy/Board-dbx/files/";
+    private final String fileDir = "/Users/s2hmuel/upload";
 
     public String getFullPath(String filename) {
         return fileDir + filename;

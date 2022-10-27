@@ -1,6 +1,7 @@
 
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security5">
 <head th:fragment="head(title)">
   <!-- Required meta tags -->
   <meta charset="utf-8">
@@ -27,27 +28,30 @@
           <a class="nav-link" href="#" th:href="@{/todo/write/}">할일등록 <span class="sr-only" th:if="${menu} == 'home'">(current)</span></a>
         </li>
         <li class="nav-item" th:classappend="${menu} == 'home'? 'active'">
+          <a class="nav-link" href="#" th:href="@{/todo/chat/}">챗봇 <span class="sr-only" th:if="${menu} == 'home'">(current)</span></a>
+        </li>
+        <li class="nav-item" th:classappend="${menu} == 'home'? 'active'">
           <a class="nav-link" href="#" th:href="@{/content/list/1}">공지사항 <span class="sr-only" th:if="${menu} == 'home'">(current)</span></a>
         </li>
         <li class="nav-item" th:classappend="${menu} == 'home'? 'active'">
           <a class="nav-link" href="#" th:href="@{/content/list/2}">자유게시판 <span class="sr-only" th:if="${menu} == 'home'">(current)</span></a>
         </li>
-        <li class="nav-item" th:classappend="${menu} == 'home'? 'active'">
+        <li sec:authorize="hasAnyAuthority('ROLE_ADMIN')" class="nav-item" th:classappend="${menu} == 'home'? 'active'">
           <a class="nav-link" href="#" th:href="@{/user/list/}">유저리스트 <span class="sr-only" th:if="${menu} == 'home'">(current)</span></a>
         </li>
         <li class="nav-item" th:classappend="${menu} == 'home'? 'active'">
           <a class="nav-link" href="#" th:href="@{/content/list/4}">내가 좋아한 글 <span class="sr-only" th:if="${menu} == 'home'">(current)</span></a>
         </li>
-        <li class="nav-item" th:classappend="${menu} == 'home'? 'active'" style="margin-left:240px;">
+        <li sec:authorize="isAnonymous()" class="nav-item" th:classappend="${menu} == 'home'? 'active'" style="margin-left:240px;">
           <a class="nav-link" href="#" th:href="@{/user/login}">로그인 <span class="sr-only" th:if="${menu} == 'home'">(current)</span></a>
         </li>
-        <li class="nav-item" th:classappend="${menu} == 'home'? 'active'">
+        <li sec:authorize="isAuthenticated()" class="nav-item" th:classappend="${menu} == 'home'? 'active'">
           <a class="nav-link" href="#" th:href="@{/user/logout}">로그아웃 <span class="sr-only" th:if="${menu} == 'home'">(current)</span></a>
         </li>
-        <li class="nav-item" th:classappend="${menu} == 'home'? 'active'">
+        <li sec:authorize="isAnonymous()" class="nav-item" th:classappend="${menu} == 'home'? 'active'">
           <a class="nav-link" href="#" th:href="@{/user/signup}">회원가입 <span class="sr-only" th:if="${menu} == 'home'">(current)</span></a>
         </li>
-        <li class="nav-item" th:classappend="${menu} == 'home'? 'active'">
+        <li sec:authorize="isAuthenticated()" class="nav-item" th:classappend="${menu} == 'home'? 'active'">
           <a class="nav-link" href="#" th:href="@{/user/edit}">정보수정 <span class="sr-only" th:if="${menu} == 'home'">(current)</span></a>
         </li>
 

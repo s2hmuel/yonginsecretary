@@ -16,6 +16,12 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
     show-sql: true
+
+
+  servlet:
+    multipart:
+      maxFileSize: 100MB
+      maxRequestSize: 100MB
 

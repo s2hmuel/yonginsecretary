@@ -7,8 +7,8 @@
     <meta name="viewpoint" content="width=device-width, initial-scale=1.0">
     <title>용인 비서 용비</title>
     <link rel="stylesheet" href="../images/style.css">
-    <style>   	
-        .chat_wrap { 
+    <style>
+        .chat_wrap {
             position:absolute;
             left:50%; margin-left:-160px;
             top:14%;
@@ -16,7 +16,7 @@
             width:300px; padding:5px;
             font-size:13px; color:#333; }
         .chat_wrap .inner{background-color:#acc2d2; border-radius:5px; padding:10px; overflow-y:scroll; height: 460px;}
-        
+
         .chatLi{list-style-type: none; margin-bottom: 13px;}
 
         /* all chats */
@@ -30,7 +30,7 @@
         .chat_wrap .chatLi:nth-child(odd) .box .msg {background:#fee600}
         .chat_wrap .chatLi:nth-child(odd) .box::before{left:auto; right:-8px; border-left:8px solid #fee600; border-right:0; display: inline-block; margin-top: 13px;}
 
-        input[id="question"]{border:0; width:100%;background:#ddd; border-radius:5px; height:30px; 
+        input[id="question"]{border:0; width:100%;background:#ddd; border-radius:5px; height:30px;
                                             padding-left:5px; box-sizing:border-box; margin-top:1px}
         input[id="question"]::placeholder{color:#999}
     </style>
@@ -56,9 +56,9 @@
                             <div class = "box" style="display:none">
                                 <p class="msg">
                                 </p>
-                            </div>       
+                            </div>
                         </li> -->
-                    </div>        
+                    </div>
                     <input id='question' spellcheck="false"
                     type="text" class="mymsg" placeholder='질문을 입력하세요' >
                 </div>
@@ -75,12 +75,12 @@
     let enterToggle = false;
 
     let chat_count = 0;
-    
+
     $input.onkeydown = e => {
         if (!e.target.value) return;
         if (e.key !== 'Enter') return;
         if (e.target.value.length === count_space(e.target.value)) return;
-        
+
         __question__ = e.target.value;
         appendHtml(e.target.value);
         appendHtml('답변 생성중...');
@@ -118,7 +118,7 @@
             $li.setAttribute('class', 'chatLi');
             $li.setAttribute('id', 'totalChat');
 
-            const $div = document.createElement('div');            
+            const $div = document.createElement('div');
             $div.setAttribute('class', 'box');
             $li.appendChild($div);
 
@@ -201,7 +201,7 @@
     function getTodo() {
         $.ajax({
             type: "get",
-            url: "/content/getTodo",
+            url: "/todo/getTodo",
             contentType: 'application/json',
             dataType: 'json',
             success: function(resultMap) {
@@ -216,28 +216,28 @@
                 const $todoGroup = document.createElement('div');
                 $todoGroup.setAttribute('class', 'todoGroup');
 
-                for (i = 0; i<resultMap.todo.length; i++) {
-                    const $content = document.createTextNode(resultMap.todo[i]);
+                for (i = 0; i<a.length; i++) {
+                    const $todoList = document.createElement('div');
+
+                    const $content = document.createElement('div');
+                    $content.append(a[i]);
 
                     const $button = document.createElement('button');
                     $button.setAttribute('type', 'button');
                     $button.innerText = '완료';
-                    var b = resultMap.todo[i]
-                    $button.onclick = function(b) {
-                        console.log("다음 내용 지우기 ajax 호출 예정 : " + b);
-                        $.ajax({
-                            type:"delete",
-                            url:"/content/deleteTodo/" + b,
-                            success: function(b) {
-                                console.log(b);
-                            }
-                        })
-                    }
-
+                    $button.value=a[i];
+                    $button.setAttribute('onclick', 'f1(this)');
                     const br1 = document.createElement('br');
-                    $todoGroup.append($content, ' ', $button, br1);
+
+                    $todoList.append($content, ' ', $button, br1);
+
+                    $todoGroup.append($todoList);
 
 
+
+
+                    const br = document.createElement('br');
+                    $todoGroup.append($content, ' ', $button, br);
                 }
 
                 const br1 = document.createElement('br');
@@ -252,6 +252,20 @@
             }
         })
     };
+
+
+    function f1(a) {
+        console.log(a.value + '이게 삭제하려는 값');
+
+        $.ajax({
+            type:"delete",
+            url:"/todo/deleteTodo/" + a.value,
+            success: function() {
+                console.log('succeed');
+                a.previousSibling.previousSibling.setAttribute('style', 'text-decoration-line:line-through');
+            }
+        })
+    }
 
     function bringAnswerFromWeatherAPI(question) {
 
@@ -283,14 +297,14 @@
         //console.log(nowtime);
         nowtime = nowtime + '00';
         //console.log(nowtime);
-        
+
         $.ajax({
             type : "GET",
-            url : "http://apis.data.go.kr/" + "1360000" + 
+            url : "http://apis.data.go.kr/" + "1360000" +
             "/VilageFcstInfoService_2.0/getVilageFcst?" +
-            "serviceKey=Qyi5sRXv3mkmcXeMdQZX7mD0Ntkjg0N%2BOovJiGO%2F5XHkHix70HkPJTY0n52OkCbxzXeAGrMmR0iUZJHbZ%2FYc9A%3D%3D" + "&pageNo=1" + "&numOfRows=1000" + "&dataType=JSON" + 
+            "serviceKey=Qyi5sRXv3mkmcXeMdQZX7mD0Ntkjg0N%2BOovJiGO%2F5XHkHix70HkPJTY0n52OkCbxzXeAGrMmR0iUZJHbZ%2FYc9A%3D%3D" + "&pageNo=1" + "&numOfRows=1000" + "&dataType=JSON" +
             "&base_date=" + todate +
-            "&base_time=" + nowtime + 
+            "&base_time=" + nowtime +
             cityXY,
             dataType : 'json',
             success:function(data){

@@ -1,5 +1,6 @@
 package com.project.yonginsecretary.entity;
 
+import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -15,6 +16,8 @@ public class Todo {
     private String title;
     private String uploadDate;
     private boolean completed;
+
+    private String writer;
     @ManyToOne(fetch = FetchType.LAZY) //지연 입력
     @JoinColumn(name = "user_id")
     private User user;
@@ -23,4 +26,5 @@ public class Todo {
         this.user = user;
         user.getTodoes().add(this);
     }
+
 }
