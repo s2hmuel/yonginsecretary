@@ -38,6 +38,15 @@ public class TodoController {
         return "todo/writeForm";
     }
 
+    @GetMapping("/chat")
+    public String chat(Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        User loginUser = principalDetails.getUser();
+        TodoWriteDTO todoWriteDTO = new TodoWriteDTO();
+        todoWriteDTO.setWriter(loginUser.getNickname());
+        model.addAttribute("todoWriteDTO", todoWriteDTO);
+        return "todo/chatbot";
+    }
+
     @PostMapping("/write")
     public String write(@Valid @ModelAttribute TodoWriteDTO todoWriteDTO, BindingResult bindingResult,
                         @AuthenticationPrincipal PrincipalDetails principalDetails, Model model) throws IOException {

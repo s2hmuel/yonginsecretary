@@ -4,14 +4,12 @@ import com.project.yonginsecretary.auth.PrincipalDetails;
 import com.project.yonginsecretary.dto.ContentDTO;
 import com.project.yonginsecretary.dto.ContentWriteDTO;
 import com.project.yonginsecretary.dto.SearchDTO;
-import com.project.yonginsecretary.entity.Content;
-import com.project.yonginsecretary.entity.UploadFile;
-import com.project.yonginsecretary.entity.User;
-import com.project.yonginsecretary.entity.UserLike;
+import com.project.yonginsecretary.entity.*;
 import com.project.yonginsecretary.repository.ContentRepository;
 import com.project.yonginsecretary.repository.UploadFileRepository;
 import com.project.yonginsecretary.repository.UserLikeRepository;
 import com.project.yonginsecretary.service.FileStore;
+import com.project.yonginsecretary.service.TodoService;
 import com.project.yonginsecretary.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,6 +33,7 @@ import java.net.MalformedURLException;
 import java.net.URLEncoder;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -125,6 +124,37 @@ public class ContentController {
         contentWriteDTO.setWriter(loginUser.getNickname());
         model.addAttribute("contentWriteDTO", contentWriteDTO);
         return "content/writeForm";
+    }
+
+    private final TodoService todoService;
+
+    @ResponseBody
+    @GetMapping("/getTodo")
+    public HashMap<String, Object> getTodo(Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        User loginUser = principalDetails.getUser();
+
+        List<String> todoList = todoService.getTodo(loginUser.getId());
+
+        System.out.println("getId : " + loginUser.getId());
+        System.out.println("todoList : " + todoList);
+
+        HashMap<String, Object> resultMap = new HashMap<String, Object>();
+
+        resultMap.put("todo", todoList);
+
+        return resultMap;
+    }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/deleteTodo/{title}", method = {RequestMethod.DELETE})
+    public String deleteTodo(@PathVariable String title, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        System.out.println("delete Todo : " + title);
+        User loginUser = principalDetails.getUser();
+
+        todoService.deleteTodo(loginUser.getId(), title);
+
+        return "result : success";
     }
 
     @PostMapping("/{category}/write")

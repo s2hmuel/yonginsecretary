@@ -5,6 +5,15 @@ spring:
     username: player
     password: 1234
 
+    devtools:
+      livereload:
+        enabled: true
+      restart:
+        enabled: true
+    thymeleaf:
+      cache: false
+
+
   jpa:
     hibernate:
       ddl-auto: create

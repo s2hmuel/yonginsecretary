@@ -1,6 +1,7 @@
 package com.project.yonginsecretary.controller;
 
 import com.project.yonginsecretary.auth.PrincipalDetails;
+import com.project.yonginsecretary.dto.TodoWriteDTO;
 import com.project.yonginsecretary.entity.User;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -19,7 +20,7 @@ public class HomeController {
         } else {
             User loginUser = principalDetails.getUser();
             model.addAttribute("loginUser", loginUser);
-            return "loginHome";
+            return "home";
         }
     }
 
@@ -29,4 +30,6 @@ public class HomeController {
         model.addAttribute("url", url);
         return "message";
     }
+
 }
+
